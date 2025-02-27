@@ -1,53 +1,45 @@
 package tn.esprit.finance.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.finance.entity.Budget;
 import tn.esprit.finance.service.BudgetService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/budgets")
+@RequestMapping("/api/budgets")
 public class BudgetController {
 
     @Autowired
     private BudgetService budgetService;
 
-    // Récupérer tous les budgets
     @GetMapping
-    public ResponseEntity<List<Budget>> getAllBudgets() {
-        List<Budget> budgets = budgetService.getAllBudgets();
-        return budgets.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(budgets);
+    public List<Budget> getAllBudgets() {
+        return budgetService.getAllBudgets();
     }
 
-    // Récupérer un budget par son ID
     @GetMapping("/{id}")
     public ResponseEntity<Budget> getBudgetById(@PathVariable Long id) {
-        Budget budget = budgetService.getBudget(id);
-        return budget != null ? ResponseEntity.ok(budget) : ResponseEntity.notFound().build();
+        Optional<Budget> budget = budgetService.getBudgetById(id);
+        return budget.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Créer un nouveau budget
-    @PostMapping("/addbudget")
-    public ResponseEntity<Budget> createBudget(@RequestBody Budget budget) {
-        Budget createdBudget = budgetService.createBudget(budget);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdBudget);
+    @PostMapping
+    public Budget createBudget(@RequestBody Budget budget) {
+        return budgetService.createBudget(budget);
     }
 
-    // Mettre à jour un budget
     @PutMapping("/{id}")
-    public ResponseEntity<Budget> updateBudget(@PathVariable long id, @RequestBody Budget budget) {
-        Budget updatedBudget = budgetService.updateBudget(id, budget);
-        return updatedBudget != null ? ResponseEntity.ok(updatedBudget) : ResponseEntity.notFound().build();
+    public ResponseEntity<Budget> updateBudget(@PathVariable Long id, @RequestBody Budget budgetDetails) {
+        return ResponseEntity.ok(budgetService.updateBudget(id, budgetDetails));
     }
 
-    // Supprimer un budget
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBudget(@PathVariable long id) {
-        boolean isDeleted = budgetService.deleteBudget(id);
-        return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    public ResponseEntity<Void> deleteBudget(@PathVariable Long id) {
+        budgetService.deleteBudget(id);
+        return ResponseEntity.noContent().build();
     }
 }

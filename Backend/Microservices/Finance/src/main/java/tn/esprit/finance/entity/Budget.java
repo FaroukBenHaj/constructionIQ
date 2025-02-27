@@ -2,62 +2,45 @@ package tn.esprit.finance.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Budget {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    private String description;  // Assurez-vous que ce champ existe bien
+    private String projetId; // Référence à un projet du microservice "project"
 
-    private double montant;
-
-    private LocalDate dateBudget;
-
-    private String projetId;
-
-    @CreationTimestamp
-    private LocalDateTime dateCreation;
+    private Double montantInitial;
+    private Double montantUtilise;
+    private Double montantRestant;
 
     @UpdateTimestamp
     private LocalDateTime derniereMiseAJour;
 
-    // Getter et Setter pour description, montant, dateBudget, etc.
+    @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<TransactionFinanciere> transactions = new ArrayList<>();
 
-    public String getDescription() {
-        return description;
+
+
+    public Long getId() {
+        return id;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getMontant() {
-        return montant;
-    }
-
-    public void setMontant(double montant) {
-        this.montant = montant;
-    }
-
-    public LocalDate getDateBudget() {
-        return dateBudget;
-    }
-
-    public void setDateBudget(LocalDate dateBudget) {
-        this.dateBudget = dateBudget;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getProjetId() {
@@ -67,4 +50,45 @@ public class Budget {
     public void setProjetId(String projetId) {
         this.projetId = projetId;
     }
+
+    public Double getMontantInitial() {
+        return montantInitial;
+    }
+
+    public void setMontantInitial(Double montantInitial) {
+        this.montantInitial = montantInitial;
+    }
+
+    public Double getMontantUtilise() {
+        return montantUtilise;
+    }
+
+    public void setMontantUtilise(Double montantUtilise) {
+        this.montantUtilise = montantUtilise;
+    }
+
+    public Double getMontantRestant() {
+        return montantRestant;
+    }
+
+    public void setMontantRestant(Double montantRestant) {
+        this.montantRestant = montantRestant;
+    }
+
+    public LocalDateTime getDerniereMiseAJour() {
+        return derniereMiseAJour;
+    }
+
+    public void setDerniereMiseAJour(LocalDateTime derniereMiseAJour) {
+        this.derniereMiseAJour = derniereMiseAJour;
+    }
+
+    public List<TransactionFinanciere> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<TransactionFinanciere> transactions) {
+        this.transactions = transactions;
+    }
 }
+
