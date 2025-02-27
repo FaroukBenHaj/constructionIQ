@@ -235,7 +235,7 @@
                                 </div><!-- /.col-md-4 -->
 
 			                    <div class="col-md-8">
-			                    	<h4 class="margin-bottom-15">GET IN TOUCH WITH US</h4>
+			                    	<h4 class="margin-bottom-15">Add Material</h4>
 									<form [formGroup]="materialForm" (ngSubmit)="onSubmit()" class="contact-form wpcf7-form">
                                         <div class="wprt-contact-form-1">
                                           <span class="wpcf7-form-control-wrap name">
@@ -255,11 +255,12 @@
                                           </span>
                                       
                                           <span class="wpcf7-form-control-wrap unit">
-                                            <select id="materialUnit" formControlName="materialUnit" class="wpcf7-form-control" required>
-                                              <option value="">Select Unit</option>
-                                              <option value="KG">KG</option>
-                                              <option value="LITER">LITER</option>
-                                              <option value="METER">METER</option>
+                                            <select id="materialUnit" formControlName="materialUnit" class="wpcf7-form-control" required >
+                                                <option value="" disabled selected hidden>Select an option</option>
+                                                <option value="KG">UNITE</option>
+                                                <option value="KG">KG</option>
+                                                <option value="LITER">LITER</option>
+                                                <option value="METER">METER</option>
                                             </select>
                                             <!-- Message d'erreur pour materialUnit -->
                                             <div *ngIf="materialForm.get('materialUnit')?.invalid && materialForm.get('materialUnit')?.touched" class="error-message">
@@ -269,8 +270,9 @@
                                       
                                           <div class="wrap-submit">
                                             <button type="submit" [disabled]="!materialForm.valid" class="submit wpcf7-form-control wpcf7-submit" id="submit">
-                                              SEND MATERIAL
-                                            </button>
+                                                SEND MATERIAL
+                                              </button>" 
+                                              
                                           </div>
                                         </div>
                                       </form>

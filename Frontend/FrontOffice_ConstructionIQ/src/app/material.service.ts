@@ -14,7 +14,7 @@ export class MaterialService {
 
   // Obtenir tous les matériaux
   getAllMaterials(): Observable<Material[]> {
-    return this.http.get<Material[]>(this.baseUrl);
+    return this.http.get<Material[]>(`${this.baseUrl}/get`);
   }
 
   // Trouver un matériau par nom

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Material } from '../material.model'; // Votre modèle Material
 import { MaterialService } from '../material.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-material',
@@ -13,7 +14,8 @@ export class MaterialComponent implements OnInit {
 
   constructor(
     private materialService: MaterialService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router 
   ) {
     // Initialisation du formulaire avec les bons champs
     this.materialForm = this.fb.group({
@@ -27,11 +29,12 @@ export class MaterialComponent implements OnInit {
 
   // Gestion de la soumission du formulaire
   onSubmit(): void {
-    if (this.materialForm.valid) {
+   if (this.materialForm.valid) {
       const material: Material = this.materialForm.value;
       this.materialService.createMaterial(material).subscribe(
         (response) => {
           console.log('Material submitted successfully:', response);
+          this.router.navigate(['ListeMaterial'])
           // Vous pouvez ajouter un message de succès ici, par exemple un pop-up
         },
         (error) => {
