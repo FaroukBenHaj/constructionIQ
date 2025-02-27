@@ -1,6 +1,7 @@
 package tn.esprit.userdomain.security;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -15,12 +16,22 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor // In order to create a constructor with all private or the final fields
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
+
+    // using the final keyword to ask lombok to create a constructor
+    //puisque 3anna @RequiredArgsConstructor
+    @Autowired
     private final AuthenticationProvider authenticationProvider;
-    private JwtFilter jwtAuthFilter;
+
+    @Autowired
+    private final JwtFilter jwtAuthFilter;
+
+    public SecurityConfig(AuthenticationProvider authenticationProvider, JwtFilter jwtAuthFilter) {
+        this.authenticationProvider = authenticationProvider;
+        this.jwtAuthFilter = jwtAuthFilter;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -44,7 +55,7 @@ public class SecurityConfig {
                                 .authenticated()
                 ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
-                .addFilter(jwtAuthFilter , UsernamePasswordAuthenticationFilter.class)
-
+                .addFilterBefore(jwtAuthFilter , UsernamePasswordAuthenticationFilter.class);
+                return http.build();
     }
 }

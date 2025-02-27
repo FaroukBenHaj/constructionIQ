@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/constructionIQ_user_domain
-    username: username
-    password: password
+    username: postgres
+    password: farouk
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -12,7 +12,7 @@ spring:
       hibernate:
         format_sql: true
     database: postgresql
-    database-platform: org.hibernate.dialect.PostgresSQLDialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
   mail:
     host: localhost
     port: 1025
@@ -28,3 +28,10 @@ spring:
         connection-timeout: 5000
         timeout: 3000
         write-timeout: 5000
+
+application:
+  security:
+    jwt:
+      secret-key: secret
+      expiration: 8640000
+
