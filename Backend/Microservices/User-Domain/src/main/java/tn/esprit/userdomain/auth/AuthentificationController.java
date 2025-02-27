@@ -20,9 +20,9 @@ public class AuthentificationController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<?> register(@ResponseBody @Valid RegistrationRequest request)
+    public ResponseEntity<?> register(@Valid @ResponseBody RegistrationRequest request)
     {
-        authentificationService.registerUser(resquest);
+        authentificationService.registerUser(request);
         return ResponseEntity.accepted().build();
     }
 }
