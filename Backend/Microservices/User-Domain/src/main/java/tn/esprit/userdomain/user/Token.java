@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Token {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idToken;
     private String token;
     private LocalDateTime createdAt;
@@ -23,4 +24,5 @@ public class Token {
     @ManyToOne
     @JoinColumn(name = "userId" , nullable = false)
     private User user;
+
 }

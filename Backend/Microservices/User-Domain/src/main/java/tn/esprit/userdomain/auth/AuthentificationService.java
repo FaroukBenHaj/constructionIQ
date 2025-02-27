@@ -1,33 +1,54 @@
 package tn.esprit.userdomain.auth;
 
+import jakarta.mail.MessagingException;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import tn.esprit.userdomain.email.EmailService;
+import tn.esprit.userdomain.email.EmailTemplate;
 import tn.esprit.userdomain.roles.RoleRepository;
 import tn.esprit.userdomain.user.Token;
 import tn.esprit.userdomain.user.TokenRepository;
 import tn.esprit.userdomain.user.User;
 import tn.esprit.userdomain.user.UserRepository;
 
+
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.List;
-
 @Service
-@RequiredArgsConstructor
 public class AuthentificationService {
-
+    @Autowired
     private final RoleRepository roleRepository;
+    @Autowired
     private final PasswordEncoder passwordEncoder;
+    @Autowired
     private final UserRepository userRepository;
+    @Autowired
     private final TokenRepository tokenRepository;
+    @Autowired
+    private final EmailService emailService;
 
-    public void  registerUser(RegistrationRequest request){
-        // roles
+    @Value("${application.mailing.frontend.activation-url}")
+    private String activationUrl;
+
+    public AuthentificationService(RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, TokenRepository tokenRepository, EmailService emailService) {
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+        this.tokenRepository = tokenRepository;
+        this.emailService = emailService;
+    }
+
+    public void registerUser(RegistrationRequest request) throws MessagingException {
+        // Get the "ROLE_USER" role from the database
         var userRole = roleRepository.findByRoleName("ROLE_USER")
                 .orElseThrow(() -> new IllegalStateException("Role not found"));
 
-        // create user obj
+        // Create a new user
         var user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -37,17 +58,27 @@ public class AuthentificationService {
                 .enabled(false)
                 .roles(List.of(userRole))
                 .build();
+
+        // Save the user in the database
         userRepository.save(user);
-        //send validation Email
 
+        // Send validation email
         sendValidationEmail(user);
-
-
     }
 
-    private void sendValidationEmail(User user) {
+
+    private void sendValidationEmail(User user)  throws MessagingException {
         var newToken = generateAndSaveActivationToken(user);
+
         //send Email
+        emailService.sendEmail(
+                user.getEmail() ,
+                user.getFullName(),
+                EmailTemplate.ACTIVATION_ACCOUNT.name(),
+                activationUrl,
+                newToken,
+                "Account Activation"
+        );
 
     }
 
@@ -74,6 +105,6 @@ public class AuthentificationService {
 
         }
         return activationCode.toString();
-
     }
+
 }

@@ -15,35 +15,28 @@ import java.util.List;
 @Setter
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor // Lombok annotation for no-args constructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idRole;
+
     @Column(unique = true)
     private String roleName;
 
     @ManyToMany(mappedBy = "roles")
-    @JsonIgnore // Prevent the infinit loop will ignore the serialization of the list users
+    @JsonIgnore // Prevent infinite loop during serialization
     private List<User> users;
 
-    //Keep track when the user was created and when the user was uupdated
     @CreatedDate
-    @Column(nullable = false , updatable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
+
     @LastModifiedDate
-    @Column(insertable = false) // without initialization when created
+    @Column(insertable = false)
     private LocalDateTime updatedDate;
-
-    public Long getIdRole() {
-        return idRole;
-    }
-
-    public void setIdRole(Long idRole) {
-        this.idRole = idRole;
-    }
 
     public String getRoleName() {
         return roleName;
@@ -51,29 +44,5 @@ public class Role {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public LocalDateTime getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(LocalDateTime updatedDate) {
-        this.updatedDate = updatedDate;
     }
 }
