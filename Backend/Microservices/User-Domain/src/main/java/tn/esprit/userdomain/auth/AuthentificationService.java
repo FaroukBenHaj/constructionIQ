@@ -1,7 +1,6 @@
 package tn.esprit.userdomain.auth;
 
 import jakarta.mail.MessagingException;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,28 +19,16 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.List;
 @Service
+@RequiredArgsConstructor
 public class AuthentificationService {
-    @Autowired
     private final RoleRepository roleRepository;
-    @Autowired
     private final PasswordEncoder passwordEncoder;
-    @Autowired
     private final UserRepository userRepository;
-    @Autowired
     private final TokenRepository tokenRepository;
-    @Autowired
     private final EmailService emailService;
 
     @Value("${application.mailing.frontend.activation-url}")
     private String activationUrl;
-
-    public AuthentificationService(RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, TokenRepository tokenRepository, EmailService emailService) {
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
-        this.tokenRepository = tokenRepository;
-        this.emailService = emailService;
-    }
 
     public void registerUser(RegistrationRequest request) throws MessagingException {
         // Get the "ROLE_USER" role from the database
@@ -74,7 +61,6 @@ public class AuthentificationService {
         emailService.sendEmail(
                 user.getEmail() ,
                 user.getFullName(),
-                EmailTemplate.ACTIVATION_ACCOUNT.name(),
                 activationUrl,
                 newToken,
                 "Account Activation"
@@ -91,6 +77,8 @@ public class AuthentificationService {
                 .expiresAt(LocalDateTime.now().plusMinutes(15))
                 .user(user)
                 .build();
+        // save a token
+
         tokenRepository.save(token);
         return  generatedToken ;
     }

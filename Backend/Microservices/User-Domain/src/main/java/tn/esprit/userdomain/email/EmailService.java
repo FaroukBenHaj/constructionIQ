@@ -3,8 +3,6 @@ package tn.esprit.userdomain.email;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -17,52 +15,42 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class EmailService {
-    @Autowired
-    private final JavaMailSender mailSender;
-    @Autowired
-    private final SpringTemplateEngine templateEngine;
 
-    public EmailService(JavaMailSender mailSender, SpringTemplateEngine templateEngine) {
-        this.mailSender = mailSender;
-        this.templateEngine = templateEngine;
-    }
+    private final JavaMailSender mailSender;
+
+    private final SpringTemplateEngine templateEngine;
 
     @Async
     public void sendEmail(String to,
                           String subject,
-                          String username ,
-                          String emailTemplate ,
-                          String activationCode ,
-                          String confirmationUrl  ) throws MessagingException {
-       String templateName;
-       if(activationCode == null) {
-           templateName = "Confirm-email";
-       }else {
-           templateName = EmailTemplate.ACTIVATION_ACCOUNT.name();
-       }
-       MimeMessage message = mailSender.createMimeMessage();
-       MimeMessageHelper messageHelper = new MimeMessageHelper(
-               message,
-               MimeMessageHelper.MULTIPART_MODE_MIXED,
-               StandardCharsets.UTF_8.name()
-       );
-
-       Map<String , Object> model = new HashMap<>();
-       model.put("Username", username);
-       model.put("ConfirmationURL", confirmationUrl);
-       model.put("ActivationCode", activationCode);
-
+                          String username,
+                          String activationCode,
+                          String confirmationUrl) throws MessagingException {
+        // Prepare the Thymeleaf context
         Context context = new Context();
-        context.setVariables(model);
-        messageHelper.setFrom("belhajfarouk03@gmail.com");
+        context.setVariable("username", username);
+        context.setVariable("ActivationCode", activationCode);
+        context.setVariable("ConfirmationURL", confirmationUrl);
+
+        // Process the template with the context
+        String emailContent = templateEngine.process("activate_account", context);
+
+        // Create the MimeMessage
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper messageHelper = new MimeMessageHelper(
+                message,
+                MimeMessageHelper.MULTIPART_MODE_MIXED,
+                StandardCharsets.UTF_8.name()
+        );
+
+        // Set email details
         messageHelper.setTo(to);
         messageHelper.setSubject(subject);
+        messageHelper.setText(emailContent, true); // true indicates HTML content
 
-        String html = templateEngine.process(templateName, context);
-
-        messageHelper.setText(templateName, true);
+        // Send the email
         mailSender.send(message);
-
     }
 }

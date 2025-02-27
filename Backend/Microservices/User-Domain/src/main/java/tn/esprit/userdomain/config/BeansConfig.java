@@ -31,6 +31,7 @@ public class BeansConfig {
     return authProvider;
     }
 
+    //Pour assurer le cyptage du mdp
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
