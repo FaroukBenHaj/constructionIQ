@@ -24,13 +24,14 @@ public class BudgetService {
 
     public Budget createBudget(Budget budget) {
         return budgetRepository.save(budget);
+
+    }
+    public Optional <Budget> findByProjectId(String projectId){
+        return budgetRepository.findByProjectId(projectId);
     }
 
     public Budget updateBudget(Long id, Budget budgetDetails) {
         return budgetRepository.findById(id).map(budget -> {
-            budget.setProjetId(budgetDetails.getProjetId());
-            budget.setMontantInitial(budgetDetails.getMontantInitial());
-            budget.setMontantUtilise(budgetDetails.getMontantUtilise());
             budget.setMontantRestant(budgetDetails.getMontantRestant());
             return budgetRepository.save(budget);
         }).orElseThrow(() -> new RuntimeException("Budget not found"));
