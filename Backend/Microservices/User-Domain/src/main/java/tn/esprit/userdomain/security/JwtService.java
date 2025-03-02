@@ -29,7 +29,7 @@ public class JwtService {
     }
 
 
-    private String generateJwt(Map<String,Object> claims, UserDetails userDetails) {
+    public String generateJwt(Map<String,Object> claims, UserDetails userDetails) {
         return buildToken(claims, userDetails , jwtEpiration);
     }
 
