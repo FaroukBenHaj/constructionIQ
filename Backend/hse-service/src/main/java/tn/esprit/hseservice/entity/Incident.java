@@ -25,7 +25,7 @@ public class Incident {
     @NotBlank(message="Description is required")
 
     private String description;
-    @NotNull(message="Severity is required")
+
     @Enumerated(EnumType.STRING)
     private IncidentSeverity severity;
     @NotNull(message="Status is required")

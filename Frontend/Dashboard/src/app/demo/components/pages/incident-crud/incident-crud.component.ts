@@ -18,7 +18,7 @@ export class IncidentCrudComponent implements OnInit{
   selectedIncidents: Incident[] = [];
   submitted: boolean = false;
   cols: any[] = [];
-  severities: any[] = [];
+  //severities: any[] = [];
   statuses: any[] = [];
   rowsPerPageOptions = [5, 10, 20];
   constructor(private incidentService: IncidentService, private messageService: MessageService) { }
@@ -36,11 +36,7 @@ export class IncidentCrudComponent implements OnInit{
         { field: 'resolutionDate', header: 'Resolution Date' }
     ];
 
-    this.severities = [
-        { label: 'LOW', value: 'LOW' },
-        { label: 'MEDIUM', value: 'MEDIUM' },
-        { label: 'HIGH', value: 'HIGH' }
-    ];
+    
 
     this.statuses = [
         { label: 'OPEN', value: 'OPEN' },
