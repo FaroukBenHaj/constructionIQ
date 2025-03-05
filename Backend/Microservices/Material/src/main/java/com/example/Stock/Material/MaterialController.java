@@ -30,14 +30,22 @@ public class MaterialController {
         return materialService.saveMaterial(material);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteMaterial(@PathVariable Long id) {
-        materialService.deleteMaterial(id);
-    }
+
     @GetMapping("/name/{materialName}")
     public Optional<Material> getMaterialByName(@PathVariable String materialName) {
         return materialService.getMaterialByName(materialName);
     }
 
+    // Suppression d'un matériau
+    @DeleteMapping("/delete/{materialID}")
+    public void deleteMaterial(@PathVariable Long materialID) {
+        materialService.deleteMaterial(materialID);
+    }
+
+    // Mise à jour d'un matériau
+    @PutMapping("/update/{materialID}")
+    public Material updateMaterial(@PathVariable Long materialID, @RequestBody Material material) {
+        return materialService.updateMaterial(materialID, material);
+    }
 
 }

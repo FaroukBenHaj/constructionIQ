@@ -12,12 +12,21 @@ public class Stock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long stockID;
+    private Long projetID;
+
+
 
     private Long materialID;
     private int availableQuantity;
 
     private LocalDate dateReceived;
+    public Long getProjetID() {
+        return projetID;
+    }
 
+    public void setProjetID(Long projetID) {
+        this.projetID = projetID;
+    }
     // Getters and Setters
     public Long getStockID() {
         return stockID;

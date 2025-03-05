@@ -240,7 +240,6 @@
                                         <div class="wprt-contact-form-1">
                                           <span class="wpcf7-form-control-wrap name">
                                             <input type="text" id="materialName" formControlName="materialName" class="wpcf7-form-control" placeholder="Material Name *" required>
-                                            <!-- Message d'erreur pour materialName -->
                                             <div *ngIf="materialForm.get('materialName')?.invalid && materialForm.get('materialName')?.touched" class="error-message">
                                               Material Name is required.
                                             </div>
@@ -248,21 +247,19 @@
                                       
                                           <span class="wpcf7-form-control-wrap cost">
                                             <input type="number" id="cost" formControlName="cost" class="wpcf7-form-control" placeholder="Cost *" required>
-                                            <!-- Message d'erreur pour cost -->
                                             <div *ngIf="materialForm.get('cost')?.invalid && materialForm.get('cost')?.touched" class="error-message">
                                               Cost is required and must be a positive number.
                                             </div>
                                           </span>
                                       
                                           <span class="wpcf7-form-control-wrap unit">
-                                            <select id="materialUnit" formControlName="materialUnit" class="wpcf7-form-control" required >
-                                                <option value="" disabled selected hidden>Select an option</option>
-                                                <option value="KG">UNITE</option>
-                                                <option value="KG">KG</option>
-                                                <option value="LITER">LITER</option>
-                                                <option value="METER">METER</option>
+                                            <select id="materialUnit" formControlName="materialUnit" class="wpcf7-form-control" required>
+                                              <option value="" disabled selected hidden>Select an option</option>
+                                              <option value="UNITE">UNITE</option>
+                                              <option value="KG">KG</option>
+                                              <option value="LITRE">LITRE</option>
+                                              <option value="METRE">METRE</option>
                                             </select>
-                                            <!-- Message d'erreur pour materialUnit -->
                                             <div *ngIf="materialForm.get('materialUnit')?.invalid && materialForm.get('materialUnit')?.touched" class="error-message">
                                               Material Unit is required.
                                             </div>
@@ -270,9 +267,8 @@
                                       
                                           <div class="wrap-submit">
                                             <button type="submit" [disabled]="!materialForm.valid" class="submit wpcf7-form-control wpcf7-submit" id="submit">
-                                                SEND MATERIAL
-                                              </button>" 
-                                              
+                                              UPDATE MATERIAL
+                                            </button>
                                           </div>
                                         </div>
                                       </form>

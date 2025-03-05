@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Material } from './material.model';
+import { Material } from '../material.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +24,7 @@ export class MaterialService {
   }
 
   // Obtenir un matériau par ID
-  getMaterialById(id: number): Observable<Material> {
-    return this.http.get<Material>(`${this.baseUrl}/${id}`);
-  }
+ 
 
   // Créer un nouveau matériau
   createMaterial(material: Material): Observable<Material> {
@@ -33,7 +32,16 @@ export class MaterialService {
   }
 
   // Supprimer un matériau par ID
-  deleteMaterial(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  deleteMaterial(materialID: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/delete/${materialID}`);
+  }
+
+  // Mettre à jour un matériau
+  updateMaterial(material: Material): Observable<Material> {
+    return this.http.put<Material>(`${this.baseUrl}/update/${material.materialID}`, material);
+  }
+
+  getMaterialById(id: number): Observable<Material> {
+    return this.http.get<Material>(`${this.baseUrl}/${id}`);
   }
 }

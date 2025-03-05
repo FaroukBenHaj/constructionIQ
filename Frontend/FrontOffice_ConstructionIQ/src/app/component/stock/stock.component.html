@@ -1,0 +1,22 @@
+<div class="stock-list">
+    <h2>Liste des Stocks</h2>
+  
+    <!-- Tableau pour afficher la liste des stocks -->
+    <table>
+      <thead>
+        <tr>
+        
+          <th>Quantité Disponible</th>
+          <th>Date de Réception</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let stock of stocks">
+          
+          <td>{{ stock.availableQuantity }}</td>
+          <td>{{ stock.dateReceived }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

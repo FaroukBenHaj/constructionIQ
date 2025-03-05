@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './component/header/header.component';
 import { FooterComponent } from './component/footer/footer.component';
 import { HomePageComponent } from './component/home-page/home-page.component';
-import { MaterialComponent } from './material/material.component';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ListeMaterialComponent } from './component/liste-material/liste-material.component';
@@ -18,9 +18,15 @@ import { RippleModule } from 'primeng/ripple';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { DropdownModule } from 'primeng/dropdown';
 import { ProgressBarModule } from 'primeng/progressbar';
-import { ToastModule } from 'primeng/toast';
 import { SliderModule } from 'primeng/slider';
 import { RatingModule } from 'primeng/rating';
+import { StockComponent } from './component/stock/stock.component';
+import { MaterialComponent } from './component/material/material.component';
+import { StockService } from './service/stock.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Assurez-vous d'importer cela
+
+
+
 
 @NgModule({
   declarations: [
@@ -29,28 +35,29 @@ import { RatingModule } from 'primeng/rating';
     FooterComponent,
     HomePageComponent,
     MaterialComponent,
-    ListeMaterialComponent
-
+    ListeMaterialComponent,
+    StockComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule, // Ajoute cette ligne
+    FormsModule, // Correct import
     HttpClientModule,
     TableModule,
-		RatingModule,
-		ButtonModule,
-		SliderModule,
-		InputTextModule,
-		ToggleButtonModule,
-		RippleModule,
-		MultiSelectModule,
-		DropdownModule,
-		ProgressBarModule,
-		ToastModule
+    RatingModule,
+    ButtonModule,
+    SliderModule,
+    InputTextModule,
+    ToggleButtonModule,
+    RippleModule,
+    MultiSelectModule,
+    DropdownModule,
+    ProgressBarModule,
+    BrowserAnimationsModule
+ 
   ],
-  providers: [],
+  providers: [StockService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
