@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'FrontOffice_ConstructionIQ';
+
+  hideHeaderFooter = false;
+
+  constructor(private router: Router) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        // Define routes where header/footer should be hidden
+        this.hideHeaderFooter = ['/login', '/signup'].includes(event.url);
+      }
+    });
+  }
 }

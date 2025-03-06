@@ -103,6 +103,7 @@ public class AuthentificationService {
         }
         return activationCode.toString();
     }
+
     public AuthenticationResponse authenticate(AuthenticationRequest request){
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -116,6 +117,7 @@ public class AuthentificationService {
         var jwtToken = jwtService.generateJwt(claims , user);
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
+
     @Transactional
     public void activateAccount(String token) throws MessagingException {
         Token savedToken = tokenRepository.findByToken(token).orElseThrow(() -> new RuntimeException("Invalid Token"));

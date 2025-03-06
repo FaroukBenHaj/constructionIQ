@@ -37,10 +37,12 @@ public class JwtService {
             Map<String,Object> extraClaims,
             UserDetails userDetails ,
             long jwtEpiration) {
+
         var authorities = userDetails.getAuthorities()
             .stream()
             .map(GrantedAuthority::getAuthority)
             .toList();
+
     return Jwts.builder().setClaims(extraClaims)
             .setSubject(userDetails.getUsername())
             .setIssuedAt(new Date(System.currentTimeMillis())).

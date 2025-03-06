@@ -11,7 +11,7 @@ public enum BussinessErrorCode {
     NEW_PASSWORD_DOES_NOT_MATCH(301 , BAD_REQUEST , "New  password does not match "),
     ACCOUNT_LOCKED(302 , FORBIDDEN , "User account is Locked"),
     ACCOUNT_DISABLED(303 , FORBIDDEN , "User account is Disabled"),
-    BAD_CREDENTIAL(304 , FORBIDDEN , "lOGIN / Password is incorrect")
+    BAD_CREDENTIAL(304 , FORBIDDEN , "login / Password is incorrect")
     ;
     @Getter
         private final  int code ;
