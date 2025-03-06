@@ -3,6 +3,7 @@ package tn.esprit.userdomain.email;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmailService {
 
     private final JavaMailSender mailSender;
@@ -32,7 +34,7 @@ public class EmailService {
         Context context = new Context();
         context.setVariable("username", username);
         context.setVariable("ActivationCode", activationCode);
-        context.setVariable("ConfirmationURL", confirmationUrl);
+        context.setVariable("confirmationUrl", confirmationUrl);
 
         // Process the template with the context
         String emailContent = templateEngine.process("activate_account", context);
@@ -46,11 +48,14 @@ public class EmailService {
         );
 
         // Set email details
+
         messageHelper.setTo(to);
         messageHelper.setSubject(subject);
         messageHelper.setText(emailContent, true); // true indicates HTML content
+        System.out.println("Generated Confirmation URL: " + confirmationUrl);
 
         // Send the email
         mailSender.send(message);
+
     }
 }

@@ -10,6 +10,8 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import { LoginComponent } from './Pages/login/login.component';
 import {FormsModule} from "@angular/forms";
 import { RegisterComponent } from './Pages/register/register.component';
+import { ActivateAccountComponent } from './Pages/activate-account/activate-account.component';
+import {CodeInputModule} from "angular-code-input";
 
 @NgModule({
   declarations: [
@@ -18,13 +20,15 @@ import { RegisterComponent } from './Pages/register/register.component';
     FooterComponent,
     HomePageComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ActivateAccountComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    CodeInputModule
   ],
   providers: [
     HttpClient
