@@ -26,10 +26,10 @@ export class BudgetService {
   getBudgetByProjectId(projetId: number): Observable<Budget> {
     return this.http.get<Budget>(`${this.apiUrl}/projet/${projetId}`);
   }
-  getBudgetById(id: number): Observable<Budget> {
-    return this.http.get<Budget>(`${this.apiUrl}/${id}`);
+
+  // Récupérer le budget par ID
+  getBudgetById(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${id}`);
   }
   
 }
-
-//private apiUrl = 'http://localhost:8089/api/budgets'; // À adapter selon ton backend
