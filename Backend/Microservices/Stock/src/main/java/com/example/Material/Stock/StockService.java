@@ -1,6 +1,7 @@
 package com.example.Material.Stock;
 
 import com.example.Material.feign.StockInterface;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -56,9 +57,11 @@ public class StockService {
         return stockRepository.findById(id);
     }
 
+    @Transactional
     public Stock saveStock(Stock stock) {
         return stockRepository.save(stock);
     }
+
 
     public void deleteStock(Long id) {
         stockRepository.deleteById(id);

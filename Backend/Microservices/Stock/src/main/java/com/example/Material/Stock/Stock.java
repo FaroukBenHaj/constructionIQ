@@ -5,8 +5,10 @@ package com.example.Material.Stock;
 
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import lombok.Data;
 
+import java.time.LocalDate;
+@Data
 @Entity
 public class Stock {
     @Id
@@ -18,8 +20,13 @@ public class Stock {
 
     private Long materialID;
     private int availableQuantity;
-
+    // Vérifie que la date est dans le passé
     private LocalDate dateReceived;
+
+
+    @Version
+    private Long version = 0L;  // Assurez-vous que la version a une valeur initiale
+
     public Long getProjetID() {
         return projetID;
     }

@@ -3,13 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Material } from '../material.model';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class MaterialService {
 
-  private baseUrl: string = 'http://localhost:8076/materials'; // URL de l'API Spring Boot
+  private baseUrl: string = 'http://localhost:8073/materials'; // URL de l'API Spring Boot
 
   constructor(private http: HttpClient) { }
 
@@ -20,11 +19,8 @@ export class MaterialService {
 
   // Trouver un matériau par nom
   findByMaterialName(materialName: string): Observable<Material> {
-    return this.http.get<Material>(`${this.baseUrl}?materialName=${materialName}`);
+    return this.http.get<Material>(`${this.baseUrl}/getbyname?materialName=${materialName}`);
   }
-
-  // Obtenir un matériau par ID
- 
 
   // Créer un nouveau matériau
   createMaterial(material: Material): Observable<Material> {
@@ -41,6 +37,7 @@ export class MaterialService {
     return this.http.put<Material>(`${this.baseUrl}/update/${material.materialID}`, material);
   }
 
+  // Obtenir un matériau par ID
   getMaterialById(id: number): Observable<Material> {
     return this.http.get<Material>(`${this.baseUrl}/${id}`);
   }

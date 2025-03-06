@@ -4,6 +4,7 @@ import { HomePageComponent } from './component/home-page/home-page.component';
 import { ListeMaterialComponent } from './component/liste-material/liste-material.component';
 import { MaterialComponent } from './component/material/material.component';
 import { StockComponent } from './component/stock/stock.component'; // Import StockComponent
+import { AddStockComponent } from './component/stock/add-stock/add-stock.component';
 
 const routes: Routes = [
   { path: 'home', component: HomePageComponent },
@@ -12,8 +13,9 @@ const routes: Routes = [
   { path: 'material', component: MaterialComponent },
   { path: 'material/:id', component: MaterialComponent },  // Route pour mettre à jour un matériau
 
-  { path: 'stock', component: StockComponent }, // Add route for StockComponent
-  { path: '**', redirectTo: '/home' } // If no route matches, redirect to /home
+  { path: 'stock', component: StockComponent }, // Route pour afficher les stocks
+  { path: 'add-stock', component: AddStockComponent }, // Route pour ajouter un stock
+  { path: '**', redirectTo: '/home' } // Si aucune route ne correspond, rediriger vers /home
 ];
 
 @NgModule({

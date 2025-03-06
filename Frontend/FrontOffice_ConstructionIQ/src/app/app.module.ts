@@ -23,7 +23,8 @@ import { RatingModule } from 'primeng/rating';
 import { StockComponent } from './component/stock/stock.component';
 import { MaterialComponent } from './component/material/material.component';
 import { StockService } from './service/stock.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Assurez-vous d'importer cela
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AddStockComponent } from './component/stock/add-stock/add-stock.component'; // Assurez-vous d'importer cela
 
 
 
@@ -36,7 +37,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; 
     HomePageComponent,
     MaterialComponent,
     ListeMaterialComponent,
-    StockComponent
+    StockComponent,
+    AddStockComponent
   ],
   imports: [
     BrowserModule,

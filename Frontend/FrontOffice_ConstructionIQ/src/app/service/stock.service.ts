@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Stock } from '../models/stock.model';  // Import the Stock model to define the data structure
 
 @Injectable({
@@ -8,29 +9,56 @@ import { Stock } from '../models/stock.model';  // Import the Stock model to def
 })
 export class StockService {
 
-  private apiUrl = 'http://localhost:8075/stocks'; // Make sure the API URL is correct
+  private apiUrl = 'http://localhost:8072/stocks'; // Assurez-vous que l'URL de l'API est correcte
 
   constructor(private http: HttpClient) { }
 
-  // Method to retrieve all stocks
+  // Méthode pour récupérer tous les stocks
   getAllStocks(): Observable<Stock[]> {
-    return this.http.get<Stock[]>(this.apiUrl); // API call to fetch stocks
+    return this.http.get<Stock[]>(this.apiUrl).pipe(
+      catchError(error => {
+        console.error('Erreur lors de la récupération des stocks', error);
+        return throwError(() => new Error('Erreur lors de la récupération des stocks'));
+      })
+    );
   }
 
-  // Method to retrieve a stock by ID
+  // Méthode pour récupérer un stock par ID
   getStockById(id: number): Observable<Stock> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<Stock>(url); // API call to fetch a stock by its ID
+    return this.http.get<Stock>(url).pipe(
+      catchError(error => {
+        console.error(`Erreur lors de la récupération du stock avec l'ID ${id}`, error);
+        return throwError(() => new Error(`Erreur lors de la récupération du stock avec l'ID ${id}`));
+      })
+    );
   }
 
-  // Method to create a new stock
   createStock(stock: Stock): Observable<Stock> {
-    return this.http.post<Stock>(this.apiUrl, stock); // API call to create a stock
+    const url = `${this.apiUrl}/post`;  
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+  
+    console.log('Données envoyées au backend:', stock); // Assurez-vous que les données envoyées sont correctes
+  
+    return this.http.post<Stock>(url, stock, { headers }).pipe(
+      catchError(error => {
+        console.error('Erreur lors de la création du stock', error);
+        return throwError(() => new Error('Erreur lors de l\'ajout du stock'));
+      })
+    );
   }
+  
 
-  // Method to delete a stock by ID
+  // Méthode pour supprimer un stock par ID
   deleteStock(id: number): Observable<void> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.delete<void>(url); // API call to delete a stock
+    return this.http.delete<void>(url).pipe(
+      catchError(error => {
+        console.error(`Erreur lors de la suppression du stock avec l'ID ${id}`, error);
+        return throwError(() => new Error(`Erreur lors de la suppression du stock avec l'ID ${id}`));
+      })
+    );
   }
 }

@@ -1,5 +1,5 @@
 export class Stock {
-    stockID: number;
+    stockID?: number;
     projetID: number;
     materialID: number;
     availableQuantity: number;

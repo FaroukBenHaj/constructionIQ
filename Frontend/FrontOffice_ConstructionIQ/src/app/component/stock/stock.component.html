@@ -1,22 +1,76 @@
-<div class="stock-list">
-    <h2>Liste des Stocks</h2>
-  
-    <!-- Tableau pour afficher la liste des stocks -->
-    <table>
-      <thead>
-        <tr>
+<div class="flex justify-content-between flex-column sm:flex-row">
+  <!-- Champ de recherche global -->
+  <span class="p-input-icon-left mb-2">
+    <i class="pi pi-search"></i>
+    <input 
+      pInputText 
+      type="text" 
+      [(ngModel)]="searchName" 
+      (input)="onGlobalFilter(dt1, $event)" 
+      placeholder="Search Stock" 
+      class="w-full"
+    />
+  </span>
+</div>
+
+<p-table #dt1 [value]="stocks" [loading]="loading" [rows]="10" [paginator]="true" [globalFilterFields]="['availableQuantity', 'dateReceived']" responsiveLayout="scroll">
+  <!-- En-tête de la table avec filtres par colonne -->
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="min-width: 12rem" pSortableColumn="availableQuantity">
+        <div class="flex justify-content-between align-items-center">
+          Available Quantity
+          <p-sortIcon field="availableQuantity"></p-sortIcon>
+        </div>
+      </th>
+      <th style="min-width: 12rem" pSortableColumn="dateReceived">
+        <div class="flex justify-content-between align-items-center">
+          Date Received
+          <p-sortIcon field="dateReceived"></p-sortIcon>
+        </div>
+      </th>
+      <th style="min-width: 12rem">Actions</th> <!-- Nouvelle colonne pour les actions -->
+    </tr>
+  </ng-template>
+
+  <!-- Corps de la table avec les données -->
+  <ng-template pTemplate="body" let-stock>
+    <tr>
+      <td>{{ stock.availableQuantity }}</td>
+      <td>{{ stock.dateReceived | date:'shortDate' }}</td>
+      <td>
+        <!-- Bouton de suppression -->
+        <button 
+          pButton 
+          icon="pi pi-trash" 
+          class="p-button-danger p-button-rounded p-button-outlined"
+          (click)="deleteStock(stock.stockID)"
+          aria-label="Delete Stock"
+        >
+          Delete
+        </button>
         
-          <th>Quantité Disponible</th>
-          <th>Date de Réception</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let stock of stocks">
-          
-          <td>{{ stock.availableQuantity }}</td>
-          <td>{{ stock.dateReceived }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  
+        <!-- Bouton de modification -->
+        <button 
+          pButton 
+          icon="pi pi-pencil" 
+          class="p-button-warning p-button-rounded p-button-outlined"
+          (click)="editStock(stock)"
+          aria-label="Edit Stock"
+        >
+          Edit
+        </button>
+      </td>
+    </tr>
+  </ng-template>
+
+  <!-- Message vide si aucun stock n'est trouvé -->
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="3">No stocks found.</td> <!-- Mise à jour pour prendre en compte la nouvelle colonne -->
+    </tr>
+  </ng-template>
+</p-table>
+
+<!-- Ajouter un nouveau stock -->
+<button routerLink="/add-stock" pButton icon="pi pi-plus" label="Add New Stock" class="p-button-success p-button-rounded p-button-outlined"></button>
