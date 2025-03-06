@@ -1,59 +1,31 @@
+export class Commande {
+  id: number;
+  projetId: number;  // L'ID du projet auquel cette commande est liée
+  userId: number;  // L'ID de l'utilisateur qui a passé cette commande
+  status: CommandeStatus;
+  totalAmount: number;
+  //invoices: Invoice[]; // Liste des factures associées à cette commande
+  //payments: Payment[]; // Liste des paiements associés à cette commande
+  orderDate: string;  // Date de la commande
+  deliveryDate: string;  // Date de livraison estimée
+
+  constructor(id: number = 0, projetId: number = 0, userId: number = 0, status: CommandeStatus = CommandeStatus.EN_ATTENTE, totalAmount: number = 0, invoices: Invoice[] = [], payments: Payment[] = [], orderDate: string = '', deliveryDate: string = '') {
+    this.id = id;
+    this.projetId = projetId;
+    this.userId = userId;
+    this.status = status;
+    this.totalAmount = totalAmount;
+    //this.invoices = invoices;
+    //this.payments = payments;
+    this.orderDate = orderDate;
+    this.deliveryDate = deliveryDate;
+  }
+}
+
 export enum CommandeStatus {
-    EN_ATTENTE = "EN_ATTENTE",
-    VALIDE = "VALIDE",
-    EXPEDIEE = "EXPEDIEE",
-    LIVREE = "LIVREE",
-    ANNULEE = "ANNULEE"
-  }
-  
-  export interface Project {
-    id: number;
-    name: string;
-  }
-  
-  export interface Supplier {
-    id: number;
-    name: string;
-  }
-  
-  export interface Product {
-    id: number;
-    name: string;
-    price: number;
-    quantity: number;
-  }
-  
-  export interface Invoice {
-    id: number;
-    montant: number;
-    status: string;
-    dateEmission: Date;
-    dateEcheance: Date;
-  }
-  
-  export interface Budget {
-    id: number;
-    total: number;
-    used: number;
-  }
-  
-  export interface Payment {
-    id: number;
-    amount: number;
-    date: Date;
-  }
-  
-  export interface Commande {
-    id: number;
-    project: Project;
-    supplier: Supplier;
-    products: Product[];
-    status: CommandeStatus;
-    totalAmount: number;
-    invoices: Invoice[];
-    budget: Budget;
-    payments: Payment[];
-    orderDate: Date;
-    deliveryDate: Date;
-  }
-  
+  EN_ATTENTE = 'EN_ATTENTE',
+  VALIDEE = 'VALIDEE',
+  EXPEDIEE = 'EXPEDIEE',
+  LIVREE = 'LIVREE',
+  ANNULEE = 'ANNULEE'
+}
