@@ -1,90 +1,50 @@
-<div class="flex justify-content-between flex-column sm:flex-row">
-  <!-- Champ de recherche global pour rechercher dans les budgets -->
-  <span class="p-input-icon-left mb-2">
-    <i class="pi pi-search"></i>
-    <input 
-      pInputText 
-      type="text" 
-      [(ngModel)]="searchName" 
-      (input)="onGlobalFilter(dt1, $event)" 
-      placeholder="Rechercher un Budget" 
-      class="w-full"
-    />
-  </span>
+<div class="container mt-4">
+  <div class="card shadow p-4">
+    <h3 class="text-center text-primary mb-4">Ajouter un Budget</h3>
+    <form [formGroup]="budgetForm" (ngSubmit)="onSubmit()">
+      
+      <div class="row">
+        <!-- Montant Total -->
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="montantTotal" class="form-label">Montant Total (€)</label>
+            <input type="number" class="form-control" id="montantTotal" formControlName="montantTotal" required>
+          </div>
+        </div>
+
+        <!-- Montant Restant -->
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="montantRestant" class="form-label">Montant Restant (€)</label>
+            <input type="number" class="form-control" id="montantRestant" formControlName="montantRestant" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- ID du Projet -->
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="projectId" class="form-label">ID du Projet</label>
+            <input type="number" class="form-control" id="projectId" formControlName="projectId" required>
+          </div>
+        </div>
+
+        <!-- Date de Création -->
+        <div class="col-md-6">
+          <div class="mb-3">
+            <label for="dateCreation" class="form-label">Date de Création</label>
+            <input type="datetime-local" class="form-control" id="dateCreation" formControlName="dateCreation" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-3">
+        <button type="submit" class="btn btn-success px-4" [disabled]="!budgetForm.valid">
+          <i class="fas fa-save"></i> Enregistrer le Budget
+        </button>
+      </div>
+
+    </form>
+  </div>
 </div>
-
-<p-table #dt1 [value]="budgets" [loading]="loading" [rows]="10" [paginator]="true" [globalFilterFields]="['id', 'projet.nom', 'montantTotal']" responsiveLayout="scroll">
-  <!-- En-tête de la table avec filtres par colonne -->
-  <ng-template pTemplate="header">
-    <tr>
-      <th style="min-width: 12rem" pSortableColumn="id">
-        <div class="flex justify-content-between align-items-center">
-          ID du Budget
-          <p-sortIcon field="id"></p-sortIcon>
-        </div>
-      </th>
-      <th style="min-width: 12rem" pSortableColumn="projet.nom">
-        <div class="flex justify-content-between align-items-center">
-          Projet
-          <p-sortIcon field="projet.nom"></p-sortIcon>
-        </div>
-      </th>
-      <th style="min-width: 12rem" pSortableColumn="montantTotal">
-        <div class="flex justify-content-between align-items-center">
-          Montant Total
-          <p-sortIcon field="montantTotal"></p-sortIcon>
-        </div>
-      </th>
-      <th style="min-width: 12rem" pSortableColumn="montantRestant">
-        <div class="flex justify-content-between align-items-center">
-          Montant Restant
-          <p-sortIcon field="montantRestant"></p-sortIcon>
-        </div>
-      </th>
-      <th style="min-width: 12rem">Actions</th> <!-- Nouvelle colonne pour les actions -->
-    </tr>
-  </ng-template>
-
-  <!-- Corps de la table avec les données -->
-  <ng-template pTemplate="body" let-budget>
-    <tr>
-      <td>{{ budget.id }}</td>
-      <td>{{ budget.projet?.nom }}</td>
-      <td>{{ budget.montantTotal | currency }}</td>
-      <td>{{ budget.montantRestant | currency }}</td>
-      <td>
-        <!-- Bouton de suppression -->
-        <button 
-          pButton 
-          icon="pi pi-trash" 
-          class="p-button-danger p-button-rounded p-button-outlined"
-          (click)="deleteBudget(budget.id)"
-          aria-label="Supprimer le Budget"
-        >
-          Supprimer
-        </button>
-        
-        <!-- Bouton de modification -->
-        <button 
-          pButton 
-          icon="pi pi-pencil" 
-          class="p-button-warning p-button-rounded p-button-outlined"
-          (click)="editBudget(budget)"
-          aria-label="Modifier le Budget"
-        >
-          Modifier
-        </button>
-      </td>
-    </tr>
-  </ng-template>
-
-  <!-- Message vide si aucun budget n'est trouvé -->
-  <ng-template pTemplate="emptymessage">
-    <tr>
-      <td colspan="5">Aucun budget trouvé.</td> <!-- Mise à jour pour prendre en compte la nouvelle colonne -->
-    </tr>
-  </ng-template>
-</p-table>
-
-<!-- Ajouter un nouveau budget -->
-<button routerLink="/add-budget" pButton icon="pi pi-plus" label="Ajouter un Budget" class="p-button-success p-button-rounded p-button-outlined"></button>

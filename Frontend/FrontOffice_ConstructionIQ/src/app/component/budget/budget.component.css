@@ -1,0 +1,11 @@
+.navbar {
+    position: relative !important;
+  }
+  .container {
+    margin-top: 100px; /* Ajuste cette valeur selon ton besoin */
+  }
+  .card {
+    position: relative;
+    z-index: 10;
+  }
+      

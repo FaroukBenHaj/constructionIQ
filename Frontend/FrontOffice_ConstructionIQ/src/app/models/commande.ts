@@ -9,7 +9,7 @@ export class Commande {
   orderDate: string;  // Date de la commande
   deliveryDate: string;  // Date de livraison estimée
 
-  constructor(id: number = 0, projetId: number = 0, userId: number = 0, status: CommandeStatus = CommandeStatus.EN_ATTENTE, totalAmount: number = 0, invoices: Invoice[] = [], payments: Payment[] = [], orderDate: string = '', deliveryDate: string = '') {
+  constructor(id: number = 0, projetId: number = 0, userId: number = 0, status: CommandeStatus = CommandeStatus.EN_ATTENTE, totalAmount: number = 0,  orderDate: string = '', deliveryDate: string = '') {
     this.id = id;
     this.projetId = projetId;
     this.userId = userId;

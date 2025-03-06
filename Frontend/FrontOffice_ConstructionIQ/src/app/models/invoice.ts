@@ -9,7 +9,7 @@ export class Invoice {
     dateEcheance: string;  // Date d'échéance de la facture
     //payments: Payment[];  // Liste des paiements associés à cette facture
   
-    constructor(id: number = 0, commandeId: number = 0, projectId: string = '', userId: string = '', montant: number = 0, status: InvoiceStatus = InvoiceStatus.EN_ATTENTE, dateEmission: string = '', dateEcheance: string = '', payments: Payment[] = []) {
+    constructor(id: number = 0, commandeId: number = 0, projectId: string = '', userId: string = '', montant: number = 0, status: InvoiceStatus = InvoiceStatus.EN_ATTENTE, dateEmission: string = '', dateEcheance: string = '') {
       this.id = id;
       this.commandeId = commandeId;
       this.projectId = projectId;
