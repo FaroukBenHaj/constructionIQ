@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BudgetService } from 'src/app/services/budget.service';
 import { ActivatedRoute } from '@angular/router';
+import { BudgetService } from 'src/app/services/budget.service';
 
 @Component({
   selector: 'app-show-budget',
@@ -8,28 +8,33 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./show-budget.component.css']
 })
 export class ShowBudgetComponent implements OnInit {
-  budget: any = null;
+  budget: any;
+  isLoading = true; // Indicateur de chargement
 
-  constructor(private budgetService: BudgetService, private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private budgetService: BudgetService
+  ) {}
 
   ngOnInit(): void {
-    const budgetId = Number(this.route.snapshot.paramMap.get('id')); // ✅ Conversion en number
-    if (!isNaN(budgetId)) { 
-      this.loadBudget(budgetId);
-    } else {
-      console.error('ID budget invalide:', budgetId);
-    }
-  }
+    // Récupère l'ID du budget depuis l'URL
+    const budgetId = this.route.snapshot.paramMap.get('id');
 
-  loadBudget(id: number): void {  // ✅ S'assurer que id est bien un number
-    this.budgetService.getBudgetById(id).subscribe(
-      (data) => {
-        console.log('Budget chargé:', data); // ✅ Affichage pour debug
-        this.budget = data;
-      },
-      (error) => {
-        console.error('Erreur lors du chargement du budget', error);
-      }
-    );
+    if (budgetId) {
+      // Appelle le service pour obtenir les données du budget
+      this.budgetService.getBudgetById(budgetId).subscribe(
+        (data) => {
+          this.budget = data;
+          this.isLoading = false; // Désactive l'indicateur de chargement
+        },
+        (error) => {
+          console.error('Erreur lors du chargement du budget', error);
+          this.isLoading = false;
+        }
+      );
+    } else {
+      console.error('ID de budget invalide');
+      this.isLoading = false;
+    }
   }
 }

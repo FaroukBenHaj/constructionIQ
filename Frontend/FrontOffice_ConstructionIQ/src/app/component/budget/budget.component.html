@@ -15,8 +15,11 @@
         <!-- Montant Restant -->
         <div class="col-md-6">
           <div class="mb-3">
-            <label for="montantRestant" class="form-label">Montant Restant (€)</label>
+            <label for="montantRestant" class="form-label">Montant Restant</label>
             <input type="number" class="form-control" id="montantRestant" formControlName="montantRestant" required>
+            <div *ngIf="budgetForm.get('montantRestant')?.errors?.['montantRestantInvalid']" class="text-danger">
+              ❌ Le montant restant ne peut pas être supérieur au montant total !
+            </div>
           </div>
         </div>
       </div>
